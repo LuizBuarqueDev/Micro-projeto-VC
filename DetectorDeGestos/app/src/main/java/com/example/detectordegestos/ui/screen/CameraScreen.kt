@@ -19,6 +19,10 @@ import com.example.detectordegestos.ui.components.CameraPreview
 fun CameraScreen() {
     val context = LocalContext.current
 
+    var detectedPoints by remember {
+        mutableIntStateOf(0)
+    }
+
     var permissionGranted by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
@@ -69,11 +73,19 @@ fun CameraScreen() {
                         .fillMaxWidth()
                         .weight(1f)
                 ) {
-                    CameraPreview()
+                    CameraPreview(
+                        onHandDetected = { points ->
+                            detectedPoints = points
+                        }
+                    )
                 }
 
                 Text(
-                    text = "Aguardando reconhecimento...",
+                    text = if (detectedPoints == 21) {
+                        "Mão detectada: 21 pontos identificados"
+                    } else {
+                        "Nenhuma mão detectada"
+                    },
                     style = MaterialTheme.typography.titleMedium
                 )
 
