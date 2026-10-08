@@ -39,5 +39,7 @@ class HandLandmarkerHelper(
 
     override fun close() {
         handLandmarker.close()
+
+
     }
 }
