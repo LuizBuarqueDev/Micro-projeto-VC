@@ -18,7 +18,6 @@ DIVISOES = ["train", "valid", "test"]
 
 EXTENSOES = {".jpg", ".jpeg", ".png", ".webp"}
 
-# MediaPipe Tasks API
 BaseOptions = mp.tasks.BaseOptions
 HandLandmarker = mp.tasks.vision.HandLandmarker
 HandLandmarkerOptions = mp.tasks.vision.HandLandmarkerOptions
@@ -26,7 +25,6 @@ RunningMode = mp.tasks.vision.RunningMode
 
 
 def extrair_features(imagem, detector):
-    # OpenCV utiliza BGR; MediaPipe espera RGB
     imagem_rgb = cv2.cvtColor(
         imagem, cv2.COLOR_BGR2RGB
     )
