@@ -23,6 +23,10 @@ fun CameraScreen() {
         mutableIntStateOf(0)
     }
 
+    var detectedGesture by remember {
+        mutableStateOf<String?>(null)
+    }
+
     var permissionGranted by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(
@@ -74,8 +78,9 @@ fun CameraScreen() {
                         .weight(1f)
                 ) {
                     CameraPreview(
-                        onHandDetected = { points ->
+                        onHandDetected = { points, gesture ->
                             detectedPoints = points
+                            detectedGesture = gesture
                         }
                     )
                 }
@@ -87,6 +92,19 @@ fun CameraScreen() {
                         "Nenhuma mão detectada"
                     },
                     style = MaterialTheme.typography.titleMedium
+                )
+
+                val gestureText = when (detectedGesture) {
+                    "rock" -> "PEDRA"
+                    "paper" -> "PAPEL"
+                    "scissors" -> "TESOURA"
+                    else -> "Aguardando gesto..."
+                }
+
+                Text(
+                    text = gestureText,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.primary
                 )
 
             } else {

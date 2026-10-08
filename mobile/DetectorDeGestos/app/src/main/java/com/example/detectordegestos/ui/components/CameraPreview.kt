@@ -1,4 +1,3 @@
-
 package com.example.detectordegestos.ui.components
 
 import android.graphics.Bitmap
@@ -19,11 +18,13 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.detectordegestos.data.mediapipe.HandLandmarkerHelper
 import java.util.concurrent.Executors
+import com.example.detectordegestos.data.classifier.HandFeatureExtractor
+import com.example.detectordegestos.data.classifier.RandomForestClassifier
 
 @Composable
 fun CameraPreview(
     modifier: Modifier = Modifier,
-    onHandDetected: (Int) -> Unit = {}
+    onHandDetected: (Int, String?) -> Unit = { _, _ -> }
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -40,6 +41,7 @@ fun CameraPreview(
     DisposableEffect(lifecycleOwner, previewView) {
         val executor = Executors.newSingleThreadExecutor()
         val landmarker = HandLandmarkerHelper(context)
+        val classifier = RandomForestClassifier(context)
 
         val cameraProviderFuture =
             ProcessCameraProvider.getInstance(context)
@@ -99,17 +101,25 @@ fun CameraPreview(
 
                         val result = landmarker.detect(rotatedBitmap)
 
-                        val pointCount =
-                            result.landmarks()
-                                .firstOrNull()
-                                ?.size ?: 0
+                        val landmarks = result.landmarks().firstOrNull()
 
-                        ContextCompat.getMainExecutor(context)
-                            .execute {
-                                if (!disposed) {
-                                    currentCallback.value(pointCount)
-                                }
+                        val pointCount = landmarks?.size ?: 0
+
+                        val gesture = if (landmarks != null && landmarks.size == 21) {
+
+                            val features = HandFeatureExtractor.extract(landmarks)
+
+                            classifier.predict(features)
+
+                        } else {
+                            null
+                        }
+
+                        ContextCompat.getMainExecutor(context).execute {
+                            if (!disposed) {
+                                currentCallback.value(pointCount, gesture)
                             }
+                        }
 
                     } catch (exception: Exception) {
                         exception.printStackTrace()
