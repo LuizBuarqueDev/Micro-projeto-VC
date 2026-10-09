@@ -24,7 +24,7 @@ Utilizei Python, MediaPipe, OpenCV, NumPy, Pandas, scikit-learn, Kotlin, Jetpack
 
 ## Como utilizar
 
-Para executar o aplicativo, é necessário abrir o projeto no Android Studio, sincronizar as dependências e executá-lo em um dispositivo com câmera. Após conceder a permissão, basta posicionar a mão diante da câmera e realizar um dos três gestos. O reconhecimento utiliza os modelos já incluídos no aplicativo, sem necessidade de novo treinamento.
+Disponibilizei o arquivo APK diretamente no repositório, permitindo instalar o aplicativo em um dispositivo Android sem precisar do Android Studio. Após a instalação, basta conceder a permissão de acesso à câmera, posicionar a mão diante dela e realizar um dos três gestos: Pedra, Papel ou Tesoura. O reconhecimento funciona localmente, utilizando os modelos já incluídos no aplicativo, sem necessidade de conexão com a internet ou novo treinamento.
 
 ## Limitações
 
