@@ -4,7 +4,7 @@ Desenvolvi uma aplicação móvel que demonstra o uso de visão computacional e 
 
 ## Etapas do desenvolvimento
 
-1. **Dataset:** obtive as imagens do Rock Paper Scissors (Roboflow) e organizei nas pastas `dataset/train`, `dataset/valid` e `dataset/test`, com as classes `paper`, `rock` e `scissors`.
+1. Dataset: obtive as imagens do [Rock Paper Scissors (Roboflow)](https://universe.roboflow.com/joseph-nelson/rock-paper-scissors) e organizei nas pastas `dataset/train`, `dataset/valid` e `dataset/test`, com as classes `paper`, `rock` e `scissors`.
 
 2. **Extração de características:** utilizei um script Python com MediaPipe Hand Landmarker (`hand_landmarker.task`) para identificar 21 pontos da mão. Centralizei as coordenadas X, Y e Z no punho e normalizei os valores, obtendo 63 características por imagem. Salvei os dados em `features/train.csv`, `features/valid.csv` e `features/test.csv`.
 
